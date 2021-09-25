@@ -1,20 +1,24 @@
+import { useContext } from "react";
 import { Box, Button, Image, Text, Heading } from "@chakra-ui/react";
 import BaseModal from "components/BaseModal";
-import { DELETE } from "pages/Home";
+import { CartContext, DELETE } from "hooks/useCartReducer";
 import { formatNumber } from "utils/common";
 
-const CartModal = ({ cart, dispatchCart, isOpen, hideModal }) => {
+const CartModal = ({ isOpen, hideModal }) => {
   return (
     <BaseModal
       isOpen={isOpen}
       hideModal={hideModal}
       Title="My Cart"
-      Content={<CartModalBody cart={cart} dispatchCart={dispatchCart} />}
+      Content={<CartModalBody />}
     />
   );
 };
 
-const CartModalBody = ({ cart, dispatchCart }) => {
+const CartModalBody = () => {
+  const cartContext = useContext(CartContext);
+  const { cart, dispatchCart } = cartContext;
+
   return (
     <Box
       width="100%"
@@ -25,7 +29,7 @@ const CartModalBody = ({ cart, dispatchCart }) => {
       alignItems="center"
       minHeight="4rem"
     >
-      {Object.keys(cart).map((key) => (
+      {Object.keys(cartContext.cart).map((key) => (
         <CartItem
           key={key}
           itemKey={key}
@@ -73,7 +77,9 @@ const CartItem = ({ imageURL, itemKey, name, price, count, dispatchCart }) => {
         <Button
           color="white"
           backgroundColor="primary"
-          onClick={() => dispatchCart({ type: DELETE, payload: { key: itemKey } })}
+          onClick={() =>
+            dispatchCart({ type: DELETE, payload: { key: itemKey } })
+          }
         >
           Remove
         </Button>

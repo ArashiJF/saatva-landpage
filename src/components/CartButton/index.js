@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { IconButton, Box, Badge, useDisclosure } from "@chakra-ui/react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import CartModal from "components/CartModal";
+import { CartContext } from "hooks/useCartReducer";
 
-const CartButton = ({ cart, dispatchCart }) => {
+const CartButton = () => {
+  const cartContext = useContext(CartContext);
   const [itemCount, setCount] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
+    const { cart } = cartContext;
     let auxCount = 0;
     for (let key in cart) {
       auxCount += cart[key].count;
     }
     setCount(auxCount);
-  }, [cart]);
+  }, [cartContext, cartContext.cart]);
 
   const handleClick = () => {
     onOpen();
@@ -41,7 +44,7 @@ const CartButton = ({ cart, dispatchCart }) => {
           </Badge>
         </Box>
       </Box>
-      {isOpen && <CartModal cart={cart} dispatchCart={dispatchCart} isOpen={isOpen} hideModal={onClose} />}
+      {isOpen && <CartModal isOpen={isOpen} hideModal={onClose} />}
     </>
   );
 };

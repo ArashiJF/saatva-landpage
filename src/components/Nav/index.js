@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import CartButton from "components/CartButton";
 import Logo from "components/Logo";
 
-const NavBar = ({ cart, dispatchCart }) => {
+const NavBar = () => {
   return (
     <Box
       as="nav"
@@ -21,7 +21,7 @@ const NavBar = ({ cart, dispatchCart }) => {
         <Logo height="38" width="180" color="primary" />
       </NavSection>
       <NavSection>
-        <CartButton cart={cart} dispatchCart={dispatchCart} />
+        <CartButton />
       </NavSection>
     </Box>
   );

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Image, Heading, Button, Text } from "@chakra-ui/react";
 import { formatNumber } from "utils/common";
-import { ADD } from "pages/Home";
+import { CartContext, ADD } from "hooks/useCartReducer";
 
-const MattressSection = ({ mattresses, dispatchCart }) => {
+const MattressSection = ({ mattresses }) => {
+  const cartContext = useContext(CartContext);
   const [selectedMattress, setSelectedMattress] = useState("");
 
   useEffect(() => {
@@ -104,7 +105,7 @@ const MattressSection = ({ mattresses, dispatchCart }) => {
             backgroundColor="primary"
             color="white"
             onClick={() =>
-              dispatchCart({
+              cartContext.dispatchCart({
                 type: ADD,
                 payload: {
                   mattress: { ...mattresses[selectedMattress] },
