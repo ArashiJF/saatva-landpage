@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Button, Image, Text, Heading } from "@chakra-ui/react";
 import BaseModal from "components/BaseModal";
 import { CartContext, DELETE } from "hooks/useCartReducer";
@@ -18,6 +18,17 @@ const CartModal = ({ isOpen, hideModal }) => {
 const CartModalBody = () => {
   const cartContext = useContext(CartContext);
   const { cart, dispatchCart } = cartContext;
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const { cart } = cartContext;
+    let auxTotal = 0;
+
+    for (let key in cart) {
+      auxTotal += cart[key].count * cart[key].price;
+    }
+    setTotal(auxTotal);
+  }, [cartContext, cartContext.cart]);
 
   return (
     <Box
@@ -29,17 +40,41 @@ const CartModalBody = () => {
       alignItems="center"
       minHeight="4rem"
     >
-      {Object.keys(cartContext.cart).map((key) => (
-        <CartItem
-          key={key}
-          itemKey={key}
-          name={cart[key].name}
-          price={cart[key].price}
-          count={cart[key].count}
-          imageURL={cart[key].imageFileName}
-          dispatchCart={dispatchCart}
-        />
-      ))}
+      <Box
+        flex="0.8"
+        maxHeight="500px"
+        margin="4"
+        padding="4"
+        flexDirection="column"
+        display="flex"
+        width="100%"
+        overflowY="auto"
+      >
+        {Object.keys(cartContext.cart).map((key) => (
+          <CartItem
+            key={key}
+            itemKey={key}
+            name={cart[key].name}
+            price={cart[key].price}
+            count={cart[key].count}
+            imageURL={cart[key].imageFileName}
+            dispatchCart={dispatchCart}
+          />
+        ))}
+      </Box>
+      <Box
+        flex="0.2"
+        display="flex"
+        width="100%"
+        margin="4"
+        padding="4"
+        alignItems="center"
+        justifyContent="flex-end"
+      >
+        <Text fontSize="lg" fontWeight="bold">
+          Total: {formatNumber(total)}
+        </Text>
+      </Box>
     </Box>
   );
 };
@@ -47,8 +82,6 @@ const CartModalBody = () => {
 const CartItem = ({ imageURL, itemKey, name, price, count, dispatchCart }) => {
   return (
     <Box
-      margin="4"
-      padding="4"
       display="flex"
       width="100%"
       justifyContent="space-between"
@@ -72,8 +105,8 @@ const CartItem = ({ imageURL, itemKey, name, price, count, dispatchCart }) => {
         <Heading as="h4" fontWeight="medium">
           {name}
         </Heading>
-        <Text size="md">Price: {formatNumber(price)}</Text>
-        <Text size="md">Count: {count}</Text>
+        <Text fontSize="md">Price: {formatNumber(price)}</Text>
+        <Text fontSize="md">Count: {count}</Text>
         <Button
           color="white"
           backgroundColor="primary"

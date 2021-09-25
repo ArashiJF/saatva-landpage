@@ -27,7 +27,7 @@ const BaseModal = ({ isOpen, hideModal, Title, Content, ...rest }) => {
           {Title}
         </ModalHeader>
         <ModalCloseButton color="white" />
-        <ModalBody padding={0} maxHeight="800px">
+        <ModalBody padding={0}>
           {Content}
         </ModalBody>
       </ModalContent>
