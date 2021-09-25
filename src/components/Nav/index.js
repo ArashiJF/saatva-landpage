@@ -1,7 +1,8 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import CartButton from "components/CartButton";
+import Logo from "components/Logo";
 
-const NavBar = () => {
+const NavBar = ({ cart }) => {
   return (
     <Box
       as="nav"
@@ -13,14 +14,14 @@ const NavBar = () => {
       minHeight="16"
       borderBottomWidth="1px"
       borderBottomColor="gray"
-      boxShadow="0px 1px 1px black;"
+      boxShadow="0px 0.5px 0px gray;"
       width="100%"
     >
       <NavSection>
-        <Heading color="primary">saatva</Heading>
+        <Logo height="38" width="180" color="primary" />
       </NavSection>
       <NavSection>
-        <CartButton />
+        <CartButton cart={cart} />
       </NavSection>
     </Box>
   );

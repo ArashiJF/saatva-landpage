@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box, Image, Heading, VStack, Button, Text } from "@chakra-ui/react";
+import { Box, Image, Heading, Button, Text } from "@chakra-ui/react";
+import { formatNumber } from "utils/common";
+import { ADD } from "pages/Home";
 
-const MattressSection = ({ mattresses }) => {
+const MattressSection = ({ mattresses, dispatchCart }) => {
   const [selectedMattress, setSelectedMattress] = useState("");
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const MattressSection = ({ mattresses }) => {
       display="flex"
       flexDirection={{ base: "column", lg: "row" }}
       justifyContent={{ base: "flex-start", lg: "center" }}
-      alignItems={{ base: "center", lg: "flex-start" }}
+      alignItems="center"
       margin="0 auto"
       height="100%"
     >
@@ -47,7 +49,7 @@ const MattressSection = ({ mattresses }) => {
         alignItems={{ base: "flex-start", lg: "flex-end" }}
         padding="4"
       >
-        <Heading>Choose Your Mattress</Heading>
+        <Heading fontWeight="medium">Choose Your Mattress</Heading>
         <Box marginTop="12">
           <Text fontSize="lg">SELECT MATTRESS TYPE</Text>
         </Box>
@@ -79,26 +81,40 @@ const MattressSection = ({ mattresses }) => {
         </Box>
         <Box
           display="flex"
-          width={{ base: "100%", lg: "400px" }}
+          width={{ base: "100%", lg: "50%" }}
           marginTop="12"
           justifyContent="space-between"
           alignItems="center"
         >
           <Text fontSize="md" fontWeight="bold">
-            {mattresses[selectedMattress].name} Mattress
+            {mattresses[selectedMattress]?.name} Mattress
           </Text>
-          <Text>${mattresses[selectedMattress].price}</Text>
+          <Text>{formatNumber(mattresses[selectedMattress]?.price)}</Text>
         </Box>
         <Box
           display="flex"
-          width={{ base: "100%", lg: "400px" }}
+          width={{ base: "100%", lg: "50%" }}
           marginTop="12"
           justifyContent="space-between"
           alignItems="center"
         >
-            <Button flex="1" borderRadius="0" backgroundColor="primary" color="white">
-                Add to Cart
-            </Button>
+          <Button
+            flex="1"
+            borderRadius="0"
+            backgroundColor="primary"
+            color="white"
+            onClick={() =>
+              dispatchCart({
+                type: ADD,
+                payload: {
+                  mattress: { ...mattresses[selectedMattress] },
+                  key: selectedMattress,
+                },
+              })
+            }
+          >
+            Add to Cart
+          </Button>
         </Box>
       </Box>
     </Box>
