@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Link } from "@chakra-ui/react";
 import CartButton from "components/CartButton";
 import Logo from "components/Logo";
 
@@ -18,7 +18,9 @@ const NavBar = () => {
       width="100%"
     >
       <NavSection>
-        <Logo height="38" width="180" color="primary" />
+        <Link href="https://www.saatva.com/" isExternal>
+          <Logo height="38" width="180" color="primary" />
+        </Link>
       </NavSection>
       <NavSection>
         <CartButton />
