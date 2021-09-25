@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { Box, Image, Heading, Button, Text } from "@chakra-ui/react";
+import { Box, Image, Heading, Button, Text, useToast  } from "@chakra-ui/react";
 import { formatNumber } from "utils/common";
 import { CartContext, ADD } from "hooks/useCartReducer";
 
 const MattressSection = ({ mattresses }) => {
   const cartContext = useContext(CartContext);
   const [selectedMattress, setSelectedMattress] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     const keys = Object.keys(mattresses);
@@ -16,6 +17,34 @@ const MattressSection = ({ mattresses }) => {
   const changeMattress = (key) => {
     setSelectedMattress(key);
   };
+
+  const addToCart = () => {
+    try {
+      cartContext.dispatchCart({
+        type: ADD,
+        payload: {
+          mattress: { ...mattresses[selectedMattress] },
+          key: selectedMattress,
+        },
+      });
+      toast({
+        title: 'Add to cart',
+        description: `Added ${mattresses[selectedMattress].name} mattress to cart`,
+        status: "success",
+        duration: 3000,
+        isClosable: true
+      });
+    } catch(e) {
+      console.log(e);
+      toast({
+        title: 'Oops',
+        description: "Something went wrong!",
+        status: "error",
+        duration: 3000,
+        isClosable: true
+      })
+    }
+  }
 
   return (
     <Box
@@ -104,15 +133,7 @@ const MattressSection = ({ mattresses }) => {
             borderRadius="0"
             backgroundColor="primary"
             color="white"
-            onClick={() =>
-              cartContext.dispatchCart({
-                type: ADD,
-                payload: {
-                  mattress: { ...mattresses[selectedMattress] },
-                  key: selectedMattress,
-                },
-              })
-            }
+            onClick={addToCart}
           >
             Add to Cart
           </Button>
