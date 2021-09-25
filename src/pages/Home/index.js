@@ -28,7 +28,7 @@ function cartReducer(state, action) {
       const currentKeys = Object.keys(state);
 
       // If it does not exist do not do nothing
-      if (!currentKeys[key]) return;
+      if (currentKeys.filter(currentKey => currentKey === key).length <= 0) return;
 
       const currentCount = state[key].count;
 
@@ -52,7 +52,7 @@ const Home = () => {
 
   return (
     <Box height="100vh" minWidth="400px" display="flex" flexDirection="column">
-      <NavBar cart={cart} />
+      <NavBar cart={cart} dispatchCart={dispatch} />
       <Box flex="1" width="100%">
         <MattressSection
           mattresses={mattresses.mattresses}
