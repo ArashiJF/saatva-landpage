@@ -5,7 +5,7 @@ export const CartContext = createContext();
 export const ADD = "ADD";
 export const DELETE = "DELETE";
 
-function cartReducer(state, action) {
+export function cartReducer(state, action) {
   switch (action.type) {
     case ADD: {
       const { key, mattress } = action.payload;
