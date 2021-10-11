@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Box, Image, Heading, Button, Text, useToast  } from "@chakra-ui/react";
+import { Box, Image, Heading, Button, Text, useToast } from "@chakra-ui/react";
 import { formatNumber } from "utils/common";
 import { CartContext, ADD } from "hooks/useCartReducer";
 
@@ -28,23 +28,23 @@ const MattressSection = ({ mattresses }) => {
         },
       });
       toast({
-        title: 'Add to cart',
+        title: "Add to cart",
         description: `Added ${mattresses[selectedMattress].name} mattress to cart`,
         status: "success",
         duration: 3000,
-        isClosable: true
+        isClosable: true,
       });
-    } catch(e) {
+    } catch (e) {
       console.log(e);
       toast({
-        title: 'Oops',
+        title: "Oops",
         description: "Something went wrong!",
         status: "error",
         duration: 3000,
-        isClosable: true
-      })
+        isClosable: true,
+      });
     }
-  }
+  };
 
   return (
     <Box
@@ -104,7 +104,10 @@ const MattressSection = ({ mattresses }) => {
                 backgroundColor={key === selectedMattress ? "gray" : "white"}
                 color={key === selectedMattress ? "white" : "gray"}
               >
-                {mattresses[key].name}
+                <Text
+                  fontSize="xs"
+                  dangerouslySetInnerHTML={{ __html: mattresses[key].name }}
+                ></Text>
               </Button>
             );
           })}
@@ -116,9 +119,13 @@ const MattressSection = ({ mattresses }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Text fontSize="md" fontWeight="bold">
-            {mattresses[selectedMattress]?.name} Mattress
-          </Text>
+          <Text
+            fontSize="md"
+            fontWeight="bold"
+            dangerouslySetInnerHTML={{
+              __html: mattresses[selectedMattress]?.name,
+            }}
+          ></Text>
           <Text>{formatNumber(mattresses[selectedMattress]?.price)}</Text>
         </Box>
         <Box
