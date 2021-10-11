@@ -57,7 +57,7 @@ const CartModalBody = () => {
             name={cart[key].name}
             price={cart[key].price}
             count={cart[key].count}
-            imageURL={cart[key].imageFileName}
+            imageURL={cart[key].thumbnail}
             dispatchCart={dispatchCart}
           />
         ))}
@@ -87,13 +87,16 @@ const CartItem = ({ imageURL, itemKey, name, price, count, dispatchCart }) => {
       justifyContent="space-between"
       alignItems="flex-start"
     >
-      {imageURL && (
-        <Image
-          boxSize="200px"
-          src={require(`assets/images/${imageURL}`).default}
-          alt="Matress Picture"
-        />
-      )}
+      <Box display="flex" justifyContent="center" boxSize="200px" alignItems="center" overflowX="auto">
+        {imageURL && (
+          <Image
+            height="auto"
+            width="auto"
+            src={imageURL}
+            alt="Matress Picture"
+          />
+        )}
+      </Box>
       <Box
         flex="1"
         height="200px"
@@ -102,8 +105,7 @@ const CartItem = ({ imageURL, itemKey, name, price, count, dispatchCart }) => {
         justifyContent="space-around"
         alignItems="flex-end"
       >
-        <Heading as="h4" fontWeight="medium">
-          {name}
+        <Heading as="h4" fontWeight="medium" dangerouslySetInnerHTML={{ __html: name }}>
         </Heading>
         <Text fontSize="md">Price: {formatNumber(price)}</Text>
         <Text fontSize="md">Count: {count}</Text>
